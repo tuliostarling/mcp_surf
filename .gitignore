@@ -1,0 +1,40 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Virtual environment
+venv/
+ENV/
+env/
+.venv/
+
+# Pytest cache
+.cache/
+
+# MyPy cache
+.mypy_cache/
+
+# Pydantic compiled files
+*.pydantic/
+
+# VSCode settings
+.vscode/
+
+# MacOS files
+.DS_Store
+
+# Env files
+.env
+
+# Logs
+*.log
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Redis dump
+dump.rdb
