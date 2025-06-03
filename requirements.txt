@@ -8,6 +8,7 @@ gunicorn
 langchain
 langchain-openai
 langchain_community
+langgraph
+mcp
 openai
-dateparser
 redis>=4.2

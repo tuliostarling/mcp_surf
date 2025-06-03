@@ -1,5 +1,5 @@
 import httpx
-from config.settings import AppSettings
+from config import AppSettings
 
 WEATHERAPI_KEY = AppSettings().weather_api_key
 

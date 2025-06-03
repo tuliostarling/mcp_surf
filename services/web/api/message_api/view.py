@@ -1,7 +1,6 @@
-from fastapi import APIRouter, Header, HTTPException
-from core.orchestrator import orchestrate_user_prompt
-from web.api.message_api.schema import UserMessage, MessageResponse
-import uuid
+from fastapi import APIRouter, Header
+from core import orchestrate_user_prompt
+from services.web.api.message_api.schema import UserMessage, MessageResponse
 
 router = APIRouter()
 

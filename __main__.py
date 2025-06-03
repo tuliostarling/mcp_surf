@@ -1,30 +1,52 @@
-import uvicorn
-import config.gunicorn_runner as gunicorn_runner
-import config.settings as settings
+import multiprocessing, uvicorn
+from config import settings, gunicorn_runner
 
 
-def main():
-    if settings.AppSettings().reload:
+def run_mcp():
+    uvicorn.run(
+        "services.mcp.application:get_app",
+        host="0.0.0.0",
+        port=9000,
+        log_level="info",
+        reload=False,
+    )
+
+
+def run_web(dev: bool):
+    if dev:
         uvicorn.run(
-            "web.application:get_app",
-            host=settings.AppSettings().host,
-            port=settings.AppSettings().port,
-            reload=settings.AppSettings().reload,
-            log_level=settings.AppSettings().log_level.value.lower(),
+            "services.web.application:get_app",
+            host="0.0.0.0",
+            port=8000,
+            reload=True,
             factory=True,
+            log_level="info",
         )
     else:
+        cfg = settings.AppSettings()
         gunicorn_runner.GunicornApplication(
-            "web.application:get_app",
-            host=settings.AppSettings().host,
-            port=settings.AppSettings().port,
-            workers=settings.AppSettings().workers_count,
+            "services.web.application:get_app",
+            host=cfg.host,
+            port=cfg.port,
+            workers=cfg.workers_count,
             factory=True,
             accesslog="-",
-            loglevel=settings.AppSettings().log_level.value.lower(),
+            loglevel=cfg.log_level.value.lower(),
             access_log_format='%r "-" %s "-" %Tf',
         ).run()
 
 
+def main():
+    dev_mode = settings.AppSettings().reload
+    mcp_proc = multiprocessing.Process(target=run_mcp, daemon=True)
+    mcp_proc.start()
+
+    try:
+        run_web(dev_mode)
+    finally:
+        mcp_proc.terminate()
+
+
 if __name__ == "__main__":
+    multiprocessing.freeze_support()
     main()

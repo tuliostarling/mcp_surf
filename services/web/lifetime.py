@@ -4,9 +4,9 @@ from contextlib import asynccontextmanager
 
 def register_lifespan(app: FastAPI) -> None:
     @asynccontextmanager
-    async def lifespan(app: FastAPI):
-        print("🚀 App starting up...")
+    async def lifespan(_: FastAPI):
+        print("🚀 Chat API starting up...")
         yield
-        print("🛑 App shutting down...")
+        print("🛑 Chat API shutting down...")
 
     app.router.lifespan_context = lifespan
