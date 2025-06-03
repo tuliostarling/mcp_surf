@@ -24,6 +24,7 @@ class AppSettings(BaseSettings):
     log_level: LogLevel = LogLevel.INFO
     weather_api_key: str
     openai_api_key: str
+    redis_url: str
 
     class Config:
         env_file = ".env"

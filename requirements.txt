@@ -10,3 +10,4 @@ langchain-openai
 langchain_community
 openai
 dateparser
+redis>=4.2
