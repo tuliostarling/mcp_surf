@@ -3,11 +3,6 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
-*.pyc
-
-# Bytecode files
-*.pyo
-*.pyd
 
 # Distribution / packaging
 build/
@@ -36,7 +31,7 @@ venv.bak/
 # Jupyter Notebook checkpoints
 .ipynb_checkpoints
 
-# PyCharm & VSCode
+# IDEs
 .idea/
 .vscode/
 
@@ -50,10 +45,6 @@ Thumbs.db
 
 # Logs
 *.log
-
-# Docker
-Dockerfile
-docker-compose.yml
 
 # Others
 *.sqlite3

@@ -1,21 +1,29 @@
-# Use official Python image
-FROM python:3.10-alpine
+FROM python:3.13-alpine
 
-# Set work directory
 WORKDIR /app
 
 # Install system dependencies
-RUN apt-get update && apt-get install -y build-essential
+RUN apk update && apk add --no-cache \
+  build-base \
+  libffi-dev \
+  musl-dev \
+  gcc \
+  g++ \
+  make \
+  linux-headers \
+  postgresql-dev \
+  rust \
+  cargo \
+  curl \
+  bash
 
-# Copy requirements and install dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the entire project
+# Copy project files
 COPY . .
 
-# Expose port
 EXPOSE 8000
+EXPOSE 9000
 
-# Start the app
-CMD ["python", "-m", "__main__"]
+CMD ["python", "__main__.py"]
