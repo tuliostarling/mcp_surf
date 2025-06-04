@@ -52,7 +52,7 @@ OPENAI_API_KEY=your_openai_api_key
 ### 4. Run the project
 
 ```bash
-python -m __main__
+python __main__
 ```
 
 You should see two services running:
