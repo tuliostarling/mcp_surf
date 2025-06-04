@@ -111,7 +111,7 @@ Request
 
 ```json
 {
-  "prompt": "As condições de surf em Maresias amanhã estão assim:\n\n- **Altura das ondas**: 1.0 m\n- **Direção do swell**: SSE\n- **Período do swell**: 16.2 s\n- **Temperatura da água**: 20.6 °C\n- **Vento**: 18.7 km/h, vindo do NE\n\nAs marés vão estar assim:\n- Baixa: 04:31 (0.52 m)\n- Alta: 10:48 (0.94 m)\n- Baixa: 17:03 (0.46 m)\n- Alta: 23:21 (0.99 m)\n\nParece que vai ter um mar tranquilo, mas com ondas razoáveis. Se você curte um surf mais leve, pode ser uma boa! Chega cedo pra evitar o crowd!"
+  "prompt": "Como estão as condições de surf em Maresias amanhã?"
 }
 ```
 
@@ -119,7 +119,7 @@ Response
 
 ```json
 {
-  "response": "As condições de surf em Maresias amanhã indicam altura de onda de 1.3 metros, direção de swell vinda do sul e temperatura da água em torno de 25°C. Os ventos soprarão de leste com intensidade moderada. As marés variam ao longo do dia."
+  "response": "As condições de surf em Maresias amanhã estão assim:\n\n- **Altura das ondas**: 1.0 m\n- **Direção do swell**: SSE\n- **Período do swell**: 16.2 s\n- **Temperatura da água**: 20.6 °C\n- **Vento**: 18.7 km/h, vindo do NE\n\nAs marés vão estar assim:\n- Baixa: 04:31 (0.52 m)\n- Alta: 10:48 (0.94 m)\n- Baixa: 17:03 (0.46 m)\n- Alta: 23:21 (0.99 m)\n\nO tempo vai estar parcialmente nublado, com previsão de chuvas esparsas e temperatura em torno de 21.3 °C. A umidade está alta, em 72%.\n\nParece que vai ter um mar tranquilo, mas com ondas razoáveis. Se você curte um surf mais leve, pode ser uma boa! Chega cedo pra evitar o crowd!"
 }
 ```
 
