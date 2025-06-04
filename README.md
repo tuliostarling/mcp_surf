@@ -100,3 +100,65 @@ mcp_surf/
 ## Background
 
 MCP-Surf simulates a **LangGraph tool agent** that dynamically selects tools to fulfill user requests based on natural language input. It highlights clean tool registration, session handling, and real-world API integrations in a structured FastAPI project.
+
+## Request and response examples
+
+### 1. Surf conditions
+
+> ⚠️ **Note:** This project currently supports **Brazilian Portuguese** only. Prompts and tools are designed for it, and using other languages may lead to inaccurate results. To support another language, fork the project and update the prompts and tool definitions.
+
+Request
+
+```json
+{
+  "prompt": "As condições de surf em Maresias amanhã estão assim:\n\n- **Altura das ondas**: 1.0 m\n- **Direção do swell**: SSE\n- **Período do swell**: 16.2 s\n- **Temperatura da água**: 20.6 °C\n- **Vento**: 18.7 km/h, vindo do NE\n\nAs marés vão estar assim:\n- Baixa: 04:31 (0.52 m)\n- Alta: 10:48 (0.94 m)\n- Baixa: 17:03 (0.46 m)\n- Alta: 23:21 (0.99 m)\n\nParece que vai ter um mar tranquilo, mas com ondas razoáveis. Se você curte um surf mais leve, pode ser uma boa! Chega cedo pra evitar o crowd!"
+}
+```
+
+Response
+
+```json
+{
+  "response": "As condições de surf em Maresias amanhã indicam altura de onda de 1.3 metros, direção de swell vinda do sul e temperatura da água em torno de 25°C. Os ventos soprarão de leste com intensidade moderada. As marés variam ao longo do dia."
+}
+```
+
+---
+
+### 2. Weather forecast
+
+Request
+
+```json
+{
+  "prompt": "Vai chover em Florianópolis hoje?"
+}
+```
+
+Response
+
+```json
+{
+  "response": "Hoje em Florianópolis o tempo tá tranquilo, com sol e sem previsão de chuva. A temperatura tá em torno de 18,9°C e o vento tá leve, a 6,5 km/h. Então, pode surfar sossegado, sem preocupação com a chuva!"
+}
+```
+
+---
+
+### 3. Surf condition and Weather forecast
+
+Request
+
+```json
+{
+  "prompt": "Como estará o tempo e as ondas em Itacoatiara amanhã."
+}
+```
+
+Response
+
+```json
+{
+  "response": "As condições em Itacoatiara para amanhã, 5 de junho, estão assim:\n\n**Ondas:**\n- Altura das ondas: 0,7 m\n- Direção do swell: Leste\n- Período do swell: 0,1 s\n- Temperatura da água: 29,3 °C\n- Vento: 11,5 km/h, vindo do Leste\n\n**Maré:**\n- Baixa: 06:35 (0,84 m)\n- Alta: 12:03 (2,98 m)\n- Baixa: 19:11 (0,77 m)\n\n**Tempo:**\n- Previsão de chuvas leves nas proximidades\n- Temperatura: 26,1 °C\n- Umidade: 82%\n- Vento: 9,7 km/h\n- Índice UV: 2,2\n\nAs ondas estão pequenas, mas com um ventinho leve, pode ser uma boa para quem curte um surf mais tranquilo. Se você não se importa com a chuva, pode rolar um surf de boa!"
+}
+```
