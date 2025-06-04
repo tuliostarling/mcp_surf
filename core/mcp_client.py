@@ -1,8 +1,10 @@
-import inspect, asyncio
-from typing import List, Dict, Any
+import asyncio
+from typing import List
 from langchain_community.tools import StructuredTool
 from mcp import ClientSession
+from mcp.types import Tool
 from mcp.client.streamable_http import streamablehttp_client
+from core.models.surf_weather import SurfWeatherInput
 
 MCP_ENDPOINT = "http://localhost:9000/mcp"
 
@@ -16,33 +18,52 @@ class MCPToolAdapter:
     async def load(self) -> List[StructuredTool]:
         if self._tools:
             return self._tools
+
         async with self._lock:
             if self._tools:
                 return self._tools
             catalogue = await self._catalogue()
-            self._tools = [self._wrap(meta) for meta in catalogue]
+
+            tools_entry = next((item for item in catalogue if item[0] == "tools"), None)
+            tool_defs = tools_entry[1] if tools_entry else []
+
+            self._tools = [
+                self._wrap(tool)
+                for tool in tool_defs
+                if tool.name not in ("meta", "nextCursor")
+            ]
             return self._tools
 
-    async def _catalogue(self) -> List[Dict[str, Any]]:
-        """Fetch fresh tool list (one http round-trip)."""
+    async def _catalogue(self) -> List:
+        """Fetch the tool list from the MCP server."""
         async with streamablehttp_client(self.base_url) as (read_s, write_s, _c):
             async with ClientSession(read_s, write_s) as session:
                 await session.initialize()
                 return await session.list_tools()
 
-    def _wrap(self, tool_obj) -> StructuredTool:
+    def _wrap(self, tool: Tool) -> StructuredTool:
         """Convert an mcp tool object into a langchain structuredtool."""
-        name = getattr(tool_obj, "name", tool_obj[0])
-        desc = getattr(tool_obj, "description", None) or f"MCP tool '{name}'"
 
-        async def _caller(**kwargs):
+        async def _async_caller(**kwargs):
             async with streamablehttp_client(self.base_url) as (read_s, write_s, _c):
-                async with ClientSession(read_s, write_s) as sess:
-                    await sess.initialize()
-                    return await sess.call_tool(name, kwargs)
+                async with ClientSession(read_s, write_s) as session:
+                    await session.initialize()
+                    return await session.call_tool(tool.name, kwargs)
 
-        _caller.__name__ = name
-        _caller.__doc__ = desc
-        _caller.__signature__ = inspect.signature(lambda **kw: None)
+        def _sync_wrapper(**kwargs):
+            try:
+                return asyncio.run(_async_caller(**kwargs))
+            except RuntimeError:
+                return asyncio.get_event_loop().run_until_complete(
+                    _async_caller(**kwargs)
+                )
 
-        return StructuredTool.from_function(_caller, description=desc)
+        _sync_wrapper.__name__ = tool.name
+        _sync_wrapper.__doc__ = tool.description or f"Call MCP tool `{tool.name}`"
+
+        return StructuredTool.from_function(
+            func=_sync_wrapper,
+            name=tool.name,
+            description=tool.description,
+            args_schema=SurfWeatherInput,
+        )

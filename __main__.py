@@ -7,8 +7,9 @@ def run_mcp():
         "services.mcp.application:get_app",
         host="0.0.0.0",
         port=9000,
-        log_level="info",
         reload=False,
+        factory=True,
+        log_level="info",
     )
 
 
