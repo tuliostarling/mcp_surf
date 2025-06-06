@@ -1,5 +1,5 @@
 import enum
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from dotenv import load_dotenv
 import os
 
@@ -16,6 +16,8 @@ class LogLevel(str, enum.Enum):
 
 
 class AppSettings(BaseSettings):
+    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+
     host: str = "0.0.0.0"
     port: int = 8000
     workers_count: int = 2
@@ -24,7 +26,4 @@ class AppSettings(BaseSettings):
     log_level: LogLevel = LogLevel.INFO
     weather_api_key: str
     openai_api_key: str
-    redis_url: str
-
-    class Config:
-        env_file = ".env"
+    database_url: str

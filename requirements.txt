@@ -11,4 +11,7 @@ langchain_community
 langgraph
 mcp
 openai
-redis>=4.2
+psycopg2-binary
+SQLAlchemy
+alembic
+pgvector
